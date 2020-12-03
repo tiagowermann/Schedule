@@ -1,0 +1,121 @@
+CREATE TABLE IF NOT EXISTS cliente (
+  	id_cliente SERIAL,
+  	nome_cliente VARCHAR(150) NULL,
+  	email_cliente VARCHAR(50) NULL,
+  	usuario VARCHAR(50) NULL,
+  	senha VARCHAR(50) NULL,
+  	situacao_cliente VARCHAR(15) NULL,
+  	PRIMARY KEY (id_cliente)
+);
+
+CREATE TABLE IF NOT EXISTS servico (
+  	id_servico SERIAL,
+  	nome_servico VARCHAR(45) NULL,
+  	valor_servico VARCHAR(6) NULL,
+  	tempo_servico VARCHAR(4) NULL,
+  	PRIMARY KEY (id_servico)
+);
+
+CREATE TABLE IF NOT EXISTS agenda (
+  	id_agenda SERIAL,
+	nome_agendado VARCHAR(150) NULL,
+  	servico_agendado VARCHAR(50) NULL,
+  	horario_agendado VARCHAR(10) NULL,
+  	PRIMARY KEY (id_agenda)
+);
+  
+CREATE TABLE IF NOT EXISTS cliente_agenda (
+	 id_cliente SERIAL,
+	 id_agenda SERIAL,
+	 FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente),
+ 	 FOREIGN KEY (id_agenda) REFERENCES agenda (id_agenda)
+);
+
+
+CREATE TABLE IF NOT EXISTS servico_agenda (
+	 id_servico SERIAL,
+	 id_agenda SERIAL,
+	 FOREIGN KEY (id_servico) REFERENCES servico (id_servico),
+ 	 FOREIGN KEY (id_agenda) REFERENCES agenda (id_agenda)
+);
+
+
+
+
+
+
+
+
+
+
+-- -----------------------------------------------------
+-- Table cliente
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS cliente (
+  	id_cliente SERIAL,
+  	nome_cliente VARCHAR(150) NULL,
+  	email_cliente VARCHAR(50) NULL,
+  	usuario VARCHAR(15) NULL,
+  	senha VARCHAR(15) NULL,
+  	situacao_cliente VARCHAR(15) NULL,
+  	PRIMARY KEY (id_cliente)
+);
+
+
+-- -----------------------------------------------------
+-- Table agenda
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS agenda (
+  	id_agenda SERIAL,
+  	nome_agendado VARCHAR(150) NULL,
+  	servico_agendado VARCHAR(50) NULL,
+  	horario_agendado VARCHAR(10) NULL,
+  	PRIMARY KEY (id_agenda),
+  	FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente),
+  	FOREIGN KEY (id_servico) REFERENCES servico (id_servico)
+);
+
+
+-- -----------------------------------------------------
+-- Table servico
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS servico (
+ 	id_servico SERIAL,
+	nome_servico VARCHAR(45) NULL,
+	valor_servico NUMERIC(4) NULL,
+	tempo_servico TIME NULL,
+  	PRIMARY KEY (id_servico)
+);
+
+
+-- -----------------------------------------------------
+-- Table cliente_agenda
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS cliente_agenda (
+	 id_cliente SERIAL,
+	 id_agenda SERIAL,
+	 FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente),
+ 	 FOREIGN KEY (id_agenda) REFERENCES agenda (id_agenda)
+);
+
+
+
+ALTER TABLE cliente ADD CONSTRAINT const_usuario UNIQUE (usuario);
+ALTER TABLE cliente ADD CONSTRAINT const_email_cliente UNIQUE (email_cliente);
+ALTER TABLE servico ADD CONSTRAINT const_nome_servico UNIQUE (nome_servico);
+
+
+
+
+
+========================================================
+Exemplo de cadastro de cliente:
+
+INSERT INTO cliente VALUES ( default, 'Tiago Wermann','tiago@gmail.com', 'tiago', MD5('1234'), 0 )
+
+
+========================================================
+Exemplo de serviço agendado:
+
+INSERT INTO agenda VALUES ( 'Jose da Silva','embuchamento', 11 )
+
